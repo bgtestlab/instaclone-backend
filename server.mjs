@@ -20,7 +20,8 @@ const typeDefs = `#graphql
     }
     type Mutation {
         createMovie(title:String!, year:Int!, genre:String): Movie
-        deleteMovie(title: String!): Boolean
+        deleteMovie(id:Int!): Movie
+        updateMovie(id:Int!, year:Int!): Movie
     }
 `;
 
@@ -28,7 +29,7 @@ const typeDefs = `#graphql
 const resolvers = {
   Query: {
     movies: () => client.movie.findMany(),
-    movie: (_, { id }) => ({ title: "hello", year: 2023 }),
+    movie: (_, { id }) => client.movie.findUnique({ where: { id } }),
   },
   Mutation: {
     createMovie: (_, { title, year, genre }) =>
@@ -39,9 +40,9 @@ const resolvers = {
           genre,
         },
       }),
-    deleteMovie: (_, { id }) => {
-      return true;
-    },
+    deleteMovie: (_, { id }) => client.movie.delete({ where: { id } }),
+    updateMovie: (_, { id, year }) =>
+      client.movie.update({ where: { id }, data: { year } }),
   },
 };
 
