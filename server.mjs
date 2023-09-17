@@ -1,19 +1,25 @@
+import { PrismaClient } from "@prisma/client";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+
+const client = new PrismaClient();
 
 // The GraphQL schema
 const typeDefs = `#graphql
     type Movie {
-        id: Int
-        title: String
-        year: Int
+        id: Int!
+        title: String!
+        year: Int!
+        genre: String
+        createdAt: String!
+        updatedAt: String!
     }
     type Query {
         movies: [Movie]
-        movie: Movie
+        movie(id:Int!): Movie
     }
     type Mutation {
-        createMovie(title:String!): Boolean
+        createMovie(title:String!, year:Int!, genre:String): Movie
         deleteMovie(title: String!): Boolean
     }
 `;
@@ -21,16 +27,19 @@ const typeDefs = `#graphql
 // A map of functions which return data from the schema.
 const resolvers = {
   Query: {
-    movies: () => [],
-    movie: () => ({ title: "hello", year: 2023 }),
+    movies: () => client.movie.findMany(),
+    movie: (_, { id }) => ({ title: "hello", year: 2023 }),
   },
   Mutation: {
-    createMovie: (_, args) => {
-      console.log(args);
-      return true;
-    },
-    deleteMovie: (_, args) => {
-      console.log(args);
+    createMovie: (_, { title, year, genre }) =>
+      client.movie.create({
+        data: {
+          title,
+          year,
+          genre,
+        },
+      }),
+    deleteMovie: (_, { id }) => {
       return true;
     },
   },
