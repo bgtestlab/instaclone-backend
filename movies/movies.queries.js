@@ -1,4 +1,4 @@
-import client from "./client.js";
+import client from "../client";
 
 // A map of functions which return data from the schema.
 export default {

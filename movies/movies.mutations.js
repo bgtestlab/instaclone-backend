@@ -1,10 +1,6 @@
-import client from "./client.js";
+import client from "../client";
 
 export default {
-  Query: {
-    movies: () => client.movie.findMany(),
-    movie: (_, { id }) => client.movie.findUnique({ where: { id } }),
-  },
   Mutation: {
     createMovie: (_, { title, year, genre }) =>
       client.movie.create({
