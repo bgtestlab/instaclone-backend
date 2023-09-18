@@ -1,5 +1,5 @@
 // The GraphQL schema
-const typeDefs = `#graphql
+export default `#graphql
     type Movie {
         id: Int!
         title: String!
