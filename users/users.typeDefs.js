@@ -1,6 +1,6 @@
 export default `#graphql
   type User {
-    id: String!
+    id: Int!
     firstName: String!
     lastName: String
     username: String!
