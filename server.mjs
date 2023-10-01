@@ -4,12 +4,14 @@ dotenv.config();
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import schema from "./schema.mjs";
+import { getUser } from "./users/users.utils";
 
 const server = new ApolloServer({
   schema,
-  context: {
-    token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjExMjI0NzQwfQ.8ijyOcGw_SIe05ABUthTyMbxOeMp4Aax8EpI9vCLPfc",
+  context: async ({ req }) => {
+    return {
+      loggedInUser: await getUser(req.headers.token),
+    };
   },
 });
 
