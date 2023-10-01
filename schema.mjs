@@ -7,12 +7,9 @@ const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const loadedTypes = loadFilesSync(`${__dirname}/**/*.typeDefs.js`, {
   extensions: ["js"],
 });
-const loadedResolvers = loadFilesSync(
-  `${__dirname}/**/*.{queries,mutations}.js`,
-  {
-    extensions: ["js"],
-  }
-);
+const loadedResolvers = loadFilesSync(`${__dirname}/**/*.resolvers.js`, {
+  extensions: ["js"],
+});
 
 const typeDefs = mergeTypeDefs(loadedTypes);
 const resolvers = mergeResolvers(loadedResolvers);
