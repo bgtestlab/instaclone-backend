@@ -8,6 +8,11 @@ export default `#graphql
     createdAt: String!
     updatedAt: String!
   }
+  type LoginResult {
+    ok: Boolean!
+    token: String
+    error: String
+  }
   type Mutation {
     createAccount(
         firstName: String!
