@@ -11,6 +11,7 @@ type Mutation {
         email: String
         password: String
         bio: String
+        avatar: Upload
     ): EditProfileResult!
 }
 `;
