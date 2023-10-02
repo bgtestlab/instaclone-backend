@@ -7,5 +7,7 @@ export default `#graphql
     email: String!
     createdAt: String!
     updatedAt: String!
+    bio: String
+    avatar: String
   }
 `;
