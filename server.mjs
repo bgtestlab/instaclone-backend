@@ -4,7 +4,7 @@ dotenv.config();
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import schema from "./schema.mjs";
-import { getUser } from "./users/users.utils";
+import { getUser } from "./users/users.utils.mjs";
 
 const server = new ApolloServer({
   schema,
