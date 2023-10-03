@@ -1,4 +1,5 @@
 export default `#graphql
+scalar Upload
 type EditProfileResult {
     ok: Boolean!
     error: String
