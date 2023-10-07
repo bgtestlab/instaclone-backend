@@ -4,7 +4,8 @@ dotenv.config();
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.mjs";
+//import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.mjs";
+import { graphqlUploadExpress } from "graphql-upload";
 import express from "express";
 import http from "http";
 import cors from "cors";
@@ -48,6 +49,7 @@ app.use(
     },
   })
 );
+app.use("/static", express.static("uploads"));
 
 // Modified server startup
 await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));

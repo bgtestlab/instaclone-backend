@@ -1,22 +1,29 @@
-//import GraphQLUpload from "graphql-upload/GraphQLUpload.mjs";
-import { createWriteStream } from "fs";
+import { GraphQLUpload } from "graphql-upload";
+import { existsSync, mkdirSync, createWriteStream } from "fs";
 import bcrypt from "bcrypt";
 import client from "../../client.mjs";
 import { protectedResolver } from "../users.utils.mjs";
-
-console.log(process.cwd());
 
 const resolverFn = async (
   _,
   { firstName, lastName, username, email, password: newPassword, bio, avatar },
   { loggedInUser }
 ) => {
-  console.log(avatar);
-  const { filename, createReadStream } = await avatar;
-  console.log(createReadStream);
-  const readStream = createReadStream();
-  const writeStream = createWriteStream(process.cwd() + "/uploads/" + filename);
-  readStream.pipe(writeStream);
+  let avatarUrl = null;
+  if (avatar) {
+    const { filename, createReadStream } = await avatar;
+    const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
+    const targetDirectory = `${process.cwd()}/uploads`;
+    if (!existsSync(targetDirectory)) {
+      mkdirSync(targetDirectory);
+    }
+    const readStream = createReadStream();
+    const writeStream = createWriteStream(
+      process.cwd() + "/uploads/" + newFilename
+    );
+    readStream.pipe(writeStream);
+    avatarUrl = `http://localhost:4000/static/${newFilename}`;
+  }
 
   let uglyPassword = null;
   if (newPassword) {
@@ -33,6 +40,7 @@ const resolverFn = async (
       email,
       bio,
       ...(uglyPassword && { password: uglyPassword }),
+      ...(avatarUrl && { avatar: avatarUrl }),
     },
   });
   if (updatedUser.id) {
@@ -48,7 +56,7 @@ const resolverFn = async (
 };
 
 export default {
-  //Upload: GraphQLUpload,
+  Upload: GraphQLUpload,
   Mutation: {
     editProfile: protectedResolver(resolverFn),
   },

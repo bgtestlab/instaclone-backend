@@ -6,8 +6,8 @@ const __dirname = fileURLToPath(new URL(".", import.meta.url));
 const loadedTypes = loadFilesSync(`${__dirname}/**/*.typeDefs.js`, {
   extensions: ["js"],
 });
-const loadedResolvers = loadFilesSync(`${__dirname}/**/*.resolvers.js`, {
-  extensions: ["js"],
+const loadedResolvers = loadFilesSync(`${__dirname}/**/*.resolvers.{js,mjs}`, {
+  extensions: ["js", "mjs"],
 });
 
 export const typeDefs = mergeTypeDefs(loadedTypes);
