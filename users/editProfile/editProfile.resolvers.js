@@ -1,3 +1,4 @@
+//import GraphQLUpload from "graphql-upload/GraphQLUpload.mjs";
 import { createWriteStream } from "fs";
 import bcrypt from "bcrypt";
 import client from "../../client.mjs";
@@ -12,6 +13,7 @@ const resolverFn = async (
 ) => {
   console.log(avatar);
   const { filename, createReadStream } = await avatar;
+  console.log(createReadStream);
   const readStream = createReadStream();
   const writeStream = createWriteStream(process.cwd() + "/uploads/" + filename);
   readStream.pipe(writeStream);
@@ -46,6 +48,7 @@ const resolverFn = async (
 };
 
 export default {
+  //Upload: GraphQLUpload,
   Mutation: {
     editProfile: protectedResolver(resolverFn),
   },
