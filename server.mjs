@@ -2,9 +2,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { ApolloServer } from "@apollo/server";
-//import { startStandaloneServer } from "@apollo/server/standalone";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
+//import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.mjs";
+import { graphqlUploadExpress } from "graphql-upload";
 import express from "express";
 import http from "http";
 import cors from "cors";
@@ -13,16 +14,6 @@ import { typeDefs, resolvers } from "./schema.mjs";
 import { getUser } from "./users/users.utils.mjs";
 
 const PORT = process.env.PORT;
-
-// const server = new ApolloServer({
-//   resolvers,
-//   typeDefs,
-// context: async ({ req }) => {
-//   return {
-//     loggedInUser: await getUser(req.headers.token),
-//   };
-//   },
-// });
 
 // Required logic for integrating with Express
 const app = express();
@@ -47,10 +38,10 @@ app.use(
   "/",
   cors(),
   bodyParser.json(),
+  graphqlUploadExpress(),
   // expressMiddleware accepts the same arguments:
   // an Apollo Server instance and optional configuration options
   expressMiddleware(server, {
-    //context: async ({ req }) => ({ token: req.headers.token }),
     context: async ({ req }) => {
       return {
         loggedInUser: await getUser(req.headers.token),
@@ -58,9 +49,8 @@ app.use(
     },
   })
 );
+app.use("/static", express.static("uploads"));
 
 // Modified server startup
 await new Promise((resolve) => httpServer.listen({ port: PORT }, resolve));
-
-//const { url } = await startStandaloneServer(server, { listen: { port: PORT } });
 console.log(`🚀 Server ready at http://localhost:4000/`);
