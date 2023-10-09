@@ -27,7 +27,7 @@ export default {
 
         // hash password
         const uglyPassword = await bcrypt.hash(password, 10);
-        console.log(uglyPassword);
+        //console.log(uglyPassword);
 
         // save the user
         const user = await client.user.create({
@@ -43,7 +43,10 @@ export default {
           ok: true,
         };
       } catch (e) {
-        return e;
+        return {
+          ok: false,
+          error: "Can't create account.",
+        };
       }
     },
   },
