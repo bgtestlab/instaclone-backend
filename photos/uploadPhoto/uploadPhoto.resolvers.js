@@ -1,4 +1,5 @@
 import client from "../../client.mjs";
+import { protectedResolver } from "../../users/users.utils.mjs";
 
 export default {
   Mutation: {

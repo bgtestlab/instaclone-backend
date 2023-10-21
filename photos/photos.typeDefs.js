@@ -12,7 +12,7 @@ export default `#graphql
     type Hashtag {
         id: Int!
         hashtag: String!
-        photos: (page: Int!): [Photo]
+        photos(page: Int!): [Photo]
         totalPhotos: Int!
         craetedAt: String!
         updatedAt: String!
