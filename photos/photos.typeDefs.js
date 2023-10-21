@@ -4,6 +4,7 @@ export default `#graphql
         user: User!
         file: String!
         caption: String
+        likes: Int!
         hashtags: [Hashtag]
         createdAt: String!
         updatedAt: String!
@@ -15,6 +16,13 @@ export default `#graphql
         photos(page: Int!): [Photo]
         totalPhotos: Int!
         craetedAt: String!
+        updatedAt: String!
+    }
+
+    type Like {
+        id: Int!
+        photo: Photo!
+        createdAt: String!
         updatedAt: String!
     }
 `;
