@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.9.3",
+    "@aws-sdk/client-s3": "^3.433.0",
     "@graphql-tools/load-files": "^7.0.0",
     "@graphql-tools/merge": "^9.0.0",
     "@graphql-tools/schema": "^10.0.0",
