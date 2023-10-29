@@ -1,5 +1,5 @@
 export default `#graphql
     type Subscription {
-        roomUpdates: Message
+        roomUpdates(id: Int!): Message
     }
 `;
